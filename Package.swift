@@ -27,5 +27,6 @@ let package = Package(
             name: "HumorDataModelTests",
             dependencies: ["HumorDataModel"]
         ),
-    ]
+    ],
+    swiftLanguageModes: [.v5]
 )
