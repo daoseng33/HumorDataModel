@@ -14,7 +14,7 @@ let package = Package(
             targets: ["HumorDataModel"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/realm/realm-swift.git", .upToNextMajor(from: "10.54.0")),
+        .package(url: "https://github.com/realm/realm-swift.git", .upToNextMajor(from: "10.0.0")),
     ],
     targets: [
         .target(
