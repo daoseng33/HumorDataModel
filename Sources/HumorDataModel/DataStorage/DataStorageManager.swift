@@ -8,7 +8,6 @@
 import Foundation
 import RealmSwift
 
-@MainActor
 final public class DataStorageManager {
     // MARK: - Properties
     static public let shared = DataStorageManager()
