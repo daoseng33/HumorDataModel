@@ -6,11 +6,15 @@
 //
 
 import Foundation
+import RealmSwift
 
-public struct ImageData: Decodable {
-    public let url: URL
-    public let width: Int
-    public let height: Int
+public class ImageData: Object, Decodable {
+    @Persisted(primaryKey: true) public var urlString: String
+    public var url: URL? {
+        return URL(string: urlString)
+    }
+    @Persisted public var width: Int
+    @Persisted public var height: Int
     
     enum CodingKeys: CodingKey {
         case url
@@ -18,20 +22,15 @@ public struct ImageData: Decodable {
         case height
     }
     
-    public enum ImageDataError: Error {
-        case invalidURL(String)
+    required public init(from decoder: any Decoder) throws {
+        super.init()
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        urlString = try container.decode(String.self, forKey: .url)
+        width = try container.decode(Int.self, forKey: .width)
+        height = try container.decode(Int.self, forKey: .height)
     }
     
-    public init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let urlString = try container.decode(String.self, forKey: .url)
-        if let url = URL(string: urlString) {
-            self.url = url
-        } else {
-            throw ImageDataError.invalidURL(urlString)
-        }
-        
-        self.width = try container.decode(Int.self, forKey: .width)
-        self.height = try container.decode(Int.self, forKey: .height)
+    public override init() {
+        super.init()
     }
 }

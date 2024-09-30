@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-public final class RandomMeme: Object, Decodable {
+public class RandomMeme: Object, Decodable {
     @Persisted(primaryKey: true) public var id: Int
     @Persisted public var memeDescription: String
     public var url: URL? {
@@ -18,8 +18,8 @@ public final class RandomMeme: Object, Decodable {
     @Persisted public var type: String
     @Persisted public var createdAt: Date = Date()
     
-    public convenience init(from decoder: Decoder) throws {
-        self.init()
+    required public init(from decoder: Decoder) throws {
+        super.init()
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try container.decode(Int.self, forKey: .id)

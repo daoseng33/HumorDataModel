@@ -6,8 +6,13 @@
 //
 
 import Foundation
+import RealmSwift
 
-public struct RandomJoke: Decodable {
-    public let id: Int
-    public let joke: String
+public class RandomJoke: Object, Decodable {
+    @Persisted(primaryKey: true) public var id: Int
+    @Persisted public var joke: String
+    
+    public override init() {
+        super.init()
+    }
 }
