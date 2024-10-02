@@ -84,9 +84,9 @@ final public class DataStorageManager {
     
     public func migrate() {
         let config = Realm.Configuration(
-                schemaVersion: 1,
+                schemaVersion: 2,
                 migrationBlock: { migration, oldSchemaVersion in
-                    if oldSchemaVersion < 1 {
+                    if oldSchemaVersion < 2 {
                         migration.enumerateObjects(ofType: ImageData.className()) { oldObject, newObject in
                             newObject!["createdAt"] = Date()
                         }
