@@ -13,6 +13,17 @@ public class RandomJoke: Object, Decodable {
     @Persisted public var joke: String
     @Persisted public var createdAt: Date = Date()
     
+    enum CodingKeys: String, CodingKey {
+        case id, joke
+    }
+
+    public required init(from decoder: Decoder) throws {
+        super.init()
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        joke = try container.decode(String.self, forKey: .joke)
+    }
+    
     public override init() {
         super.init()
     }
