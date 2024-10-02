@@ -47,10 +47,10 @@ final public class DataStorageManager {
     }
     
     public func fetchAsync<T: Object>(_ type: T.Type) async throws -> [T] {
-            let realm = try self.realm()
-            let results = realm.objects(type)
-            return Array(results)
-        }
+        let realm = try self.realm()
+        let results = realm.objects(type)
+        return Array(results)
+    }
     
     public func update<T: Object>(_ object: T, with dictionary: [String: Any?], onError: ((Error?) -> Void)? = nil) {
         do {
@@ -80,5 +80,29 @@ final public class DataStorageManager {
         } catch {
             onError?(error)
         }
+    }
+    
+    public func migrate() {
+        let config = Realm.Configuration(
+                schemaVersion: 1,
+                migrationBlock: { migration, oldSchemaVersion in
+                    if oldSchemaVersion < 1 {
+                        migration.enumerateObjects(ofType: ImageData.className()) { oldObject, newObject in
+                            newObject!["createdAt"] = Date()
+                        }
+                        migration.enumerateObjects(ofType: RandomJoke.className()) { oldObject, newObject in
+                            newObject!["createdAt"] = Date()
+                        }
+                    }
+                }
+            )
+            
+            Realm.Configuration.defaultConfiguration = config
+            
+            do {
+                let _ = try Realm()
+            } catch {
+                print("Error opening Realm: \(error)")
+            }
     }
 }
