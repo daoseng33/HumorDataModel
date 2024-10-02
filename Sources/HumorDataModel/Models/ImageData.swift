@@ -15,6 +15,7 @@ public class ImageData: Object, Decodable {
     }
     @Persisted public var width: Int
     @Persisted public var height: Int
+    @Persisted public var createdAt: Date = Date()
     
     enum CodingKeys: CodingKey {
         case url
